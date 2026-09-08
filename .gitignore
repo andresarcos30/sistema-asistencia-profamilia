@@ -30,3 +30,6 @@ yarn-error.log*
 # OS Files
 Thumbs.db
 .DS_Store
+
+# Documentos personales / notas privadas
+GUIA_ESTUDIO_PROFAMILIA.md
