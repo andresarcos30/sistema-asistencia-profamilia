@@ -1,0 +1,32 @@
+# Node & Angular
+**/node_modules/
+**/dist/
+**/.angular/
+frontend/.angular/
+frontend/dist/
+frontend/node_modules/
+
+# Java & Maven
+**/target/
+back/target/
+.mvn/wrapper/maven-wrapper.jar
+back/.mvn/wrapper/maven-wrapper.jar
+
+# IDEs & Editors
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+*.swp
+*.swo
+
+# Logs & Temp
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS Files
+Thumbs.db
+.DS_Store
