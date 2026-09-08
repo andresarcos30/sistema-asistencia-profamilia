@@ -1,0 +1,10 @@
+{
+  "name": "profamilia-fullstack",
+  "version": "1.0.0",
+  "description": "Monorepo para Backend (Spring Boot) y Frontend (Angular Micro-Frontend)",
+  "scripts": {
+    "start:frontend": "npm start --prefix frontend",
+    "start:backend": "cd back && .\\mvnw.cmd spring-boot:run",
+    "start:all": "npx -y concurrently \"npm run start:frontend\" \"npm run start:backend\""
+  }
+}

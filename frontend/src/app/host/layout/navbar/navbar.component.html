@@ -1,0 +1,17 @@
+@if (authService.currentUser()) {
+  <header class="host-navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="brand-title">Profamilia <strong>Control Asistencia</strong></span>
+      </div>
+      <div class="nav-actions">
+        <span class="user-greeting">
+          👤 Hola, <strong>{{ authService.currentUser() }}</strong>
+        </span>
+        <button class="btn-logout" (click)="onLogout()">
+          Cerrar Sesión
+        </button>
+      </div>
+    </div>
+  </header>
+}
