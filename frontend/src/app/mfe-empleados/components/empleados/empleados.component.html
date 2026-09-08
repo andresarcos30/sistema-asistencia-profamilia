@@ -1,0 +1,154 @@
+<div class="mfe-container">
+  <!-- Micro Frontend Banner Header -->
+  <div class="mfe-header">
+    <div>
+      <h1>Gestión de Asistencia de Personal</h1>
+      <p class="subtitle">Registro y control de asistencia en tiempo real</p>
+    </div>
+    <button class="btn-refresh" (click)="cargarEmpleados()" [disabled]="loading" title="Actualizar lista">
+      🔄 {{ loading ? 'Sincronizando...' : 'Actualizar' }}
+    </button>
+  </div>
+
+  <!-- Messages -->
+  @if (successMessage) {
+    <div class="alert alert-success">
+      ✅ {{ successMessage }}
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="alert alert-error">
+      ⚠️ {{ errorMessage }}
+    </div>
+  }
+
+  <!-- Stats Grid -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">Total Empleados</span>
+      <span class="stat-value">{{ totalEmpleados }}</span>
+    </div>
+    <div class="stat-card stat-present">
+      <span class="stat-label">Presentes Hoy</span>
+      <span class="stat-value">{{ totalPresentes }}</span>
+    </div>
+    <div class="stat-card stat-absent">
+      <span class="stat-label">Ausentes Hoy</span>
+      <span class="stat-value">{{ totalAusentes }}</span>
+    </div>
+  </div>
+
+  <div class="content-grid">
+    <!-- Registration Card -->
+    <section class="card form-card">
+      <div class="card-title">
+        <h3>➕ Registrar Empleado</h3>
+        <span class="hint">Nace inicialmente como <strong>Ausente</strong></span>
+      </div>
+
+      <form (ngSubmit)="registrarEmpleado()" class="employee-form">
+        <div class="form-group">
+          <label for="fullName">Nombre Completo *</label>
+          <input 
+            id="fullName"
+            type="text" 
+            name="fullName"
+            [(ngModel)]="nuevoEmpleado.fullName"
+            placeholder="Ej: Ana Pérez"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="position">Cargo o Puesto *</label>
+          <input 
+            id="position"
+            type="text" 
+            name="position"
+            [(ngModel)]="nuevoEmpleado.position"
+            placeholder="Ej: Enfermera Jefe / Desarrollador"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="loading">
+          {{ loading ? 'Guardando...' : 'Registrar Empleado' }}
+        </button>
+      </form>
+    </section>
+
+    <!-- Employees List / Table Card -->
+    <section class="card table-card">
+      <div class="card-title">
+        <h3>📋 Lista de Empleados y Asistencia</h3>
+        <span class="count-badge">{{ empleados.length }} registrados</span>
+      </div>
+
+      @if (loading && empleados.length === 0) {
+        <div class="loading-box">
+          <div class="spinner"></div>
+          <p>Cargando información del servidor...</p>
+        </div>
+      }
+
+      @if (!loading && empleados.length === 0) {
+        <div class="empty-state">
+          <span class="empty-icon">📂</span>
+          <p>No hay empleados registrados actualmente.</p>
+          <small>Utiliza el formulario para añadir al primer empleado.</small>
+        </div>
+      }
+
+      @if (empleados.length > 0) {
+        <div class="table-responsive">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Cargo</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (emp of empleados; track emp.id) {
+                <tr [class.row-present]="emp.present">
+                  <td class="cell-id">#{{ emp.id }}</td>
+                  <td class="cell-name">
+                    <strong>{{ emp.fullName }}</strong>
+                  </td>
+                  <td class="cell-position">{{ emp.position }}</td>
+                  <td>
+                    <span 
+                      class="status-pill"
+                      [class.present]="emp.present"
+                      [class.absent]="!emp.present"
+                    >
+                      <span class="dot"></span>
+                      {{ emp.present ? 'Presente' : 'Ausente' }}
+                    </span>
+                  </td>
+                  <td>
+                    <button 
+                      type="button" 
+                      class="btn-toggle"
+                      [class.btn-mark-absent]="emp.present"
+                      [class.btn-mark-present]="!emp.present"
+                      (click)="toggleAsistencia(emp)"
+                      [disabled]="loading"
+                      title="Cambiar estado de asistencia"
+                    >
+                      Cambiar Estado
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  </div>
+</div>
